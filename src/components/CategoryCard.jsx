@@ -2,13 +2,13 @@ import { useNavigate } from "react-router-dom";
 import '../styles/Category.css';
 import React from 'react'; // ✅ Required for JSX to work
 
-const CategoryCard = ({ title, image }) => {
+const CategoryCard = ({ title, slug, image }) => {
   const navigate = useNavigate();
 
   const handleClick = () => {
-    // Navigate to a category page (you can customize this as needed)
-    navigate(`/category/${title.toLowerCase()}`);
+    navigate(`/category/${slug}`);
   };
+
 
   return (
     <div className="category-box" onClick={handleClick}>

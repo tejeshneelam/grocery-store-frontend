@@ -1,39 +1,50 @@
 import { useContext, useState } from "react";
 import { CartContext } from "../context/CartContext";
 import '../styles/ProductCard.css';
-import React from 'react'; // ✅ Required for JSX to work
+import React from 'react';
 
 const ProductCard = ({ product }) => {
   const { addToCart } = useContext(CartContext);
   const [quantity, setQuantity] = useState(1);
 
   const handleAdd = () => {
-    addToCart(product, quantity);
+    addToCart({ ...product, id: product._id }, quantity);
+    alert(`${product.name} added to cart 🛒`);
   };
 
   return (
-    <div className="card" style={{
-      width: "200px",
-      padding: "10px",
-      border: "1px solid #ccc",
-      borderRadius: "10px",
-      textAlign: "center",
-      boxShadow: "2px 2px 5px rgba(0,0,0,0.1)"
-    }}>
-      <img src={product.image} alt={product.name} style={{ width: "100%", height: "150px", objectFit: "cover" }} />
+    <div className="product-card">
+      <img 
+        src={product.image || "/images/img1.jpeg"} 
+        alt={product.name} 
+      />
+
       <h4>{product.name}</h4>
-      <p>
-        <strike>₹{product.price}</strike> <strong>₹{product.discount}</strong>
+
+      <p style={{ color: "#27ae60", fontWeight: "600" }}>
+        ₹{product.price}
       </p>
+
+      <p style={{ fontSize: "0.85rem", color: "#7f8c8d" }}>
+        Stock: {product.quantity}
+      </p>
+
       <input
         type="number"
         value={quantity}
         min="1"
+        max={product.quantity}
         onChange={(e) => setQuantity(parseInt(e.target.value))}
-        style={{ width: "50px", marginRight: "10px" }}
       />
-      <button onClick={handleAdd} style={{ marginRight: "10px" }}>Add to Cart</button>
-      <button>❤️</button>
+
+      <div style={{ marginBottom: "12px" }}>
+        <button onClick={handleAdd}>
+          🛒 Add to Cart
+        </button>
+        <button style={{ marginLeft: "4px" }}>
+          ❤️
+        </button>
+      </div>
     </div>
   );
 };
