@@ -5,7 +5,7 @@ import { CartContext } from "../context/CartContext";
 import { useNavigate } from "react-router-dom";
 
 const Cart = () => {
-  const { cart, incrementQuantity, decrementQuantity, removeFromCart } = useContext(CartContext);
+  const { cart, incrementQuantity, decrementQuantity } = useContext(CartContext);
   const navigate = useNavigate();
 
   const total = cart.reduce(

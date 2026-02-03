@@ -18,28 +18,28 @@ export default function Admin() {
 
   const token = localStorage.getItem("token");
 
-  const fetchOrders = async () => {
-    const res = await axios.get("/api/admin/orders", {
-      headers: { Authorization: token }
-    });
-    setOrders(res.data);
-
-    const total = res.data.reduce(
-      (sum, o) => sum + o.totalAmount,
-      0
-    );
-    setTotalRevenue(total);
-  };
-
-  const fetchProducts = async () => {
-    const res = await axios.get("/api/products");
-    setProducts(res.data);
-  };
-
   useEffect(() => {
+    const fetchOrders = async () => {
+      const res = await axios.get("/api/admin/orders", {
+        headers: { Authorization: token }
+      });
+      setOrders(res.data);
+
+      const total = res.data.reduce(
+        (sum, o) => sum + o.totalAmount,
+        0
+      );
+      setTotalRevenue(total);
+    };
+
+    const fetchProducts = async () => {
+      const res = await axios.get("/api/products");
+      setProducts(res.data);
+    };
+
     fetchOrders();
     fetchProducts();
-  }, [fetchOrders, fetchProducts]);
+  }, []);
 
   const addProduct = async () => {
     if (!form.name || !form.price || !form.quantity || !form.category) {
