@@ -1,12 +1,13 @@
 import axios from "axios";
 import Navbar from "../components/Navbar";
-import { useContext } from "react";
+import { useContext, useState } from "react";
 import { CartContext } from "../context/CartContext";
 import { useNavigate } from "react-router-dom";
 
 export default function Payment() {
   const { cart, clearCart } = useContext(CartContext);
   const navigate = useNavigate();
+  const [qrCode, setQrCode] = useState(null);
 
   const totalAmount = cart.reduce(
     (sum, item) => sum + item.price * item.quantity,
@@ -36,9 +37,12 @@ export default function Payment() {
       console.log("Digital Signature:", res.data.signature);
       console.log("QR Code:", res.data.qr);
 
+      // Set QR code for display
+      setQrCode(res.data.qr);
+
       alert("✅ Order placed securely!");
       if (clearCart) clearCart();
-      navigate("/");
+      // Don't navigate immediately, show QR first
 
     } catch (err) {
       console.log("Payment error:", err);
@@ -164,6 +168,46 @@ export default function Payment() {
           >
             ← Back to Cart
           </button>
+
+          {qrCode && (
+            <div style={{
+              marginTop: "20px",
+              padding: "20px",
+              background: "#e8f4f8",
+              borderRadius: "12px",
+              border: "2px solid #27ae60",
+              textAlign: "center"
+            }}>
+              <h3 style={{ color: "#27ae60", marginBottom: "15px" }}>🎫 Order QR Code</h3>
+              <img
+                src={qrCode}
+                alt="Order QR Code"
+                style={{
+                  maxWidth: "200px",
+                  border: "3px solid #27ae60",
+                  borderRadius: "8px"
+                }}
+              />
+              <p style={{ marginTop: "10px", color: "#2c3e50", fontSize: "0.9rem" }}>
+                📱 Scan this QR code to verify your order
+              </p>
+              <button
+                onClick={() => navigate("/")}
+                style={{
+                  marginTop: "15px",
+                  padding: "10px 20px",
+                  background: "#27ae60",
+                  color: "#fff",
+                  border: "none",
+                  borderRadius: "6px",
+                  cursor: "pointer",
+                  fontWeight: "600"
+                }}
+              >
+                Continue Shopping
+              </button>
+            </div>
+          )}
 
           <div style={{
             marginTop: "20px",

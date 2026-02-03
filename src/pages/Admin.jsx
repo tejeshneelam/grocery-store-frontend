@@ -217,6 +217,32 @@ export default function Admin() {
                           </li>
                         ))}
                       </ul>
+                      {order.qr && (
+                        <div style={{
+                          marginTop: "15px",
+                          padding: "15px",
+                          background: "#f0f8ff",
+                          borderRadius: "8px",
+                          border: "2px solid #27ae60",
+                          textAlign: "center"
+                        }}>
+                          <p style={{ fontWeight: "600", color: "#27ae60", marginBottom: "10px" }}>
+                            🎫 Order QR Code
+                          </p>
+                          <img
+                            src={order.qr}
+                            alt={`QR Code for Order ${order._id}`}
+                            style={{
+                              maxWidth: "150px",
+                              border: "2px solid #27ae60",
+                              borderRadius: "6px"
+                            }}
+                          />
+                          <p style={{ marginTop: "8px", fontSize: "0.8rem", color: "#2c3e50" }}>
+                            Order ID: {order._id}
+                          </p>
+                        </div>
+                      )}
                     </div>
                   ))
                 )}
